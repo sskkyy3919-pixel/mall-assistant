@@ -87,7 +87,6 @@ with header_col1:
     st.markdown(f"<div class='main-title'>{title_text}</div>", unsafe_allowed_code=True)
 
 with header_col2:
-    # 🎯 هنا عدلناها لتبحث عن ملف الـ jpg بدقة
     if os.path.exists('logo.jpg'):
         st.image('logo.jpg', width=130)
 
