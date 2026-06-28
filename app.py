@@ -3,36 +3,6 @@ import pandas as pd
 import os
 
 st.set_page_config(page_title="مساعد الراشد الذكي | Alrashid Mall Assistant", layout="centered")
-st.markdown("""
-<style>
-
-/* جعل التطبيق كله من اليمين */
-.stApp {
-    direction: rtl;
-    text-align: right;
-}
-
-/* محاذاة جميع النصوص */
-h1, h2, h3, p, label, div {
-    text-align: right !important;
-}
-
-/* جعل أزرار المحلات سوداء وواضحة */
-div.stButton > button {
-    color: black !important;
-    font-weight: 700 !important;
-    font-size: 18px !important;
-}
-
-/* محاذاة النص داخل الزر */
-div.stButton > button p {
-    text-align: center !important;
-    color: black !important;
-    font-weight: bold !important;
-}
-
-</style>
-""", unsafe_allow_html=True)
 
 @st.cache_data
 def load_data():
@@ -43,6 +13,47 @@ df = load_data()
 # 🌐 إدارة حالة اللغة
 if 'lang' not in st.session_state:
     st.session_state.lang = 'ar'
+if st.session_state.lang == "ar":
+    direction = "rtl"
+    align = "right"
+else:
+    direction = "ltr"
+    align = "left"
+
+st.markdown(f"""
+<style>
+
+/* اتجاه الصفحة حسب اللغة */
+.stApp {{
+    direction: {direction};
+    text-align: {align};
+}}
+
+/* محاذاة النصوص */
+h1, h2, h3, p, label {{
+    text-align: {align} !important;
+}}
+
+/* القوائم المنسدلة */
+div[data-baseweb="select"] {{
+    direction: {direction};
+}}
+
+/* أزرار المحلات */
+div.stButton > button {{
+    color: black !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+}}
+
+div.stButton > button p {{
+    text-align: center !important;
+    color: black !important;
+    font-weight: bold !important;
+}}
+
+</style>
+""", unsafe_allow_html=True)
 
 # 📝 إعداد نصوص الواجهة
 if st.session_state.lang == 'ar':
