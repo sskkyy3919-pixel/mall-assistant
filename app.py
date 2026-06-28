@@ -4,27 +4,6 @@ import os
 
 st.set_page_config(page_title="مساعد الراشد الذكي | Alrashid Mall Assistant", layout="centered")
 
-# تنسيق المربعات وتصميم الواجهة عبر CSS ليطابق الرسمة
-st.markdown("""
-    <style>
-    .shop-box {
-        background-color: #f8f9fa;
-        border: 1px solid #e0e0e0;
-        border-radius: 8px;
-        padding: 15px;
-        text-align: center;
-        font-weight: bold;
-        box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
-        margin-bottom: 10px;
-    }
-    .main-title {
-        font-size: 28px;
-        font-weight: bold;
-        color: #b39256;
-    }
-    </style>
-""", unsafe_allowed_code=True)
-
 @st.cache_data
 def load_data():
     return pd.read_excel('shops.xlsx')
@@ -37,12 +16,12 @@ if 'lang' not in st.session_state:
 
 # 📝 إعداد الترجمة والنصوص بناءً على اللغة المفضلة
 if st.session_state.lang == 'ar':
-    title_text = "مُستشارك للتسوق"
-    lbl_target = "اختر الفئة المستهدفة:"
-    lbl_category = "اختر التصنيف الرئيسي:"
-    lbl_price = "مستوى الأسعار:"
+    title_text = "✨ مُستشارك للتسوق في الراشد ميجا مول"
+    lbl_target = "👤 اختر الفئة المستهدفة:"
+    lbl_category = "🛍️ اختر التصنيف الرئيسي:"
+    lbl_price = "💰 مستوى الأسعار:"
     lbl_btn = "اقترح المحلات المناسبة ✨"
-    lbl_success = "المحلات المقترحة لك:"
+    lbl_success = "📌 المحلات المقترحة لك:"
     lbl_warning = "للأسف، لا توجد محلات تطابق هذه الاختيارات."
     
     targets_opts = ["نساء", "رجال", "أطفال", "الكل"]
@@ -54,12 +33,12 @@ if st.session_state.lang == 'ar':
     col_cat = 'التصنيف الرئيسي'
     col_price = 'مستوى الأسعار'
 else:
-    title_text = "Shopping Assistant"
-    lbl_target = "Select Target Audience:"
-    lbl_category = "Select Main Category:"
-    lbl_price = "Price Level:"
+    title_text = "✨ Your Shopping Assistant at Alrashid Mega Mall"
+    lbl_target = "👤 Select Target Audience:"
+    lbl_category = "🛍️ Select Main Category:"
+    lbl_price = "💰 Price Level:"
     lbl_btn = "Suggest Shops ✨"
-    lbl_success = "Recommended Shops for you:"
+    lbl_success = "📌 Recommended Shops for you:"
     lbl_warning = "Unfortunately, no shops match these criteria."
     
     targets_opts = ["Women", "Men", "Children", "All"]
@@ -71,7 +50,7 @@ else:
     col_cat = 'Category'
     col_price = 'Price_Level'
 
-# 🏛️ تصميم الهيدر (الشعار على اليسار والعنوان على اليمين ليطابق الرسمة)
+# 🏛️ تصميم الهيدر (الشعار والعنوان وزر اللغة)
 header_col1, header_col2 = st.columns([7, 3])
 
 with header_col1:
@@ -84,7 +63,7 @@ with header_col1:
             st.session_state.lang = 'ar'
             st.rerun()
     
-    st.markdown(f"<div class='main-title'>{title_text}</div>", unsafe_allowed_code=True)
+    st.title(title_text)
 
 with header_col2:
     if os.path.exists('logo.jpg'):
@@ -129,7 +108,7 @@ elif price_sel in ["مرتفع", "Premium"]:
 else:
     price_filter = df[col_price].unique().tolist()
 
-# 5. الفلترة النهائية وعرض النتائج للمستخدم
+# 5. الفلترة النهائية
 if category_sel == all_word:
     final_df = filtered_df[filtered_df[col_price].isin(price_filter)]
 else:
@@ -139,17 +118,18 @@ else:
 st.write("")
 
 # زر عرض الاقتراحات والمحلات
-if st.button(lbl_btn, use_container_width=True):
+if st.
+button(lbl_btn, use_container_width=True):
     if not final_df.empty:
         st.success(lbl_success)
         
-        # تقسيم المحلات إلى شبكة مربعات (Grid) متناسقة
+        # تقسيم المحلات إلى مربعات أنيقة (أزرار مظهرية) ليطابق رسمتكِ بالملّي ومستحيل تخرب
         shops = final_df[col_name].unique()
         for i in range(0, len(shops), 4):
             cols = st.columns(4)
             for j in range(4):
                 if i + j < len(shops):
                     with cols[j]:
-                        st.markdown(f"<div class='shop-box'>{shops[i+j]}</div>", unsafe_allowed_code=True)
+                        st.button(shops[i+j], key=f"shop_{i+j}", disabled=True)
     else:
         st.warning(lbl_warning)
