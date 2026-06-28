@@ -46,7 +46,7 @@ if 'lang' not in st.session_state:
 
 # 📝 إعداد نصوص الواجهة
 if st.session_state.lang == 'ar':
-    title_text = "✨ مُستشارك للتسوق في الراشد ميجا مول"
+    title_text = "✨ مُستشارك للتسوق "
     lbl_target = "👤 اختر الفئة المستهدفة:"
     lbl_category = "🛍️ اختر التصنيف الرئيسي:"
     lbl_price = "💰 مستوى الأسعار:"
