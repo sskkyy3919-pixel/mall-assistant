@@ -5,7 +5,6 @@ st.set_page_config(page_title="مساعد الراشد الذكي | Alrashid Mal
 
 @st.cache_data
 def load_data():
-    # نقرأ الملف المرفق
     return pd.read_excel('shops.xlsx')
 
 df = load_data()
@@ -67,21 +66,19 @@ st.title(title)
 # 1. اختيار الفئة المستهدفة
 target_sel = st.selectbox(lbl_target, targets_opts)
 
-# 2. فلترة البيانات بناءً على الفئة
+# 2. فلترة البيانات بناءً على الفئة المستهدفة
 if target_sel in ["نساء", "Women"]:
     filtered_df = df[df[col_target].isin(["نساء", "الكل", "Women", "All"])]
     available_categories = sorted(filtered_df[col_cat].unique())
 
 elif target_sel in ["رجال", "Men"]:
     filtered_df = df[df[col_target].isin(["رجال", "الكل", "Men", "All"])]
-    # استبعاد العبايات واللانجري للرجال بشكل صريح وبسيط
     excluded = ["عبايات", "لانجري وملابس داخلية", "انجري وملابس داخلية", "Abayas", "Lingerie"]
     filtered_df = filtered_df[~filtered_df[col_cat].isin(excluded)]
     available_categories = sorted(filtered_df[col_cat].unique())
 
 elif target_sel in ["أطفال", "Children"]:
     filtered_df = df[df[col_target].isin(["أطفال", "الكل", "Children", "All"])]
-    # استبعاد العبايات واللانجري للأطفال
     excluded = ["عبايات", "لانجري وملابس داخلية", "انجري وملابس داخلية", "Abayas", "Lingerie"]
     filtered_df = filtered_df[~filtered_df[col_cat].isin(excluded)]
     available_categories = sorted(filtered_df[col_cat].unique())
@@ -106,18 +103,19 @@ elif price_sel in ["مرتفع", "Premium"]:
 else:
     price_filter = df[col_price].unique().tolist()
 
-# 5. الفلترة النهائية وعرض النتائج
+# 5. الفلترة النهائية وعرض النتائج للمستخدم
 if category_sel == all_word:
     final_df = filtered_df[filtered_df[col_price].isin(price_filter)]
 else:
     final_df = filtered_df[(filtered_df[col_cat] == category_sel) & 
                            (filtered_df[col_price].isin(price_filter))]
 
-# زر عرض الاقتراحات
+# زر عرض الاقتراحات والمحلات
 if st.button(lbl_btn):
     if not final_df.empty:
         st.success(lbl_success)
-for shop in final_df[col_name].unique():
+        for shop in final_df[col_name].unique():
             st.markdown(f"- **{shop}**")
     else:
-        st.warning(lbl_warning)
+        st.
+warning(lbl_warning)
