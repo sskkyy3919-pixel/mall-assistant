@@ -69,7 +69,7 @@ if st.session_state.lang == 'ar':
     all_word = "الكل"
     col_name, col_target, col_cat, col_price = 'اسم المحل', 'الفئة المستهدفة', 'التصنيف الرئيسي', 'مستوى الأسعار'
 else:
-    title_text = "✨ Your Shopping Assistant at Alrashid Mega Mall"
+    title_text = "✨ Your Shopping Assistant"
     lbl_target = "👤 Select Target Audience:"
     lbl_category = "🛍️ Select Main Category:"
     lbl_price = "💰 Price Level:"
