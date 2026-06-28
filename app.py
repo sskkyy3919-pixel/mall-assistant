@@ -135,24 +135,24 @@ if st.button(lbl_btn, use_container_width=True):
             for j in range(4):
                 if i + j < len(shops):
                    with cols[j]:
-    st.markdown(
-        f"""
-        <div style="
-            border: 1px solid #999;
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            font-size: 18px;
-            font-weight: bold;
-            color: black;
-            background-color: white;
-            margin-bottom: 10px;
-        ">
-            {shops[i+j]}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+                       st.markdown(
+                           f"""
+                           <div style="
+                               border: 1px solid #999;
+                               border-radius: 10px;
+                               padding: 15px;
+                               text-align: center;
+                               font-size: 18px;
+                               font-weight: bold;
+                               color: black;
+                               background-color: white;
+                               margin-bottom: 10px;
+                           ">
+                               {shops[i+j]}
+                           </div>
+                           """,
+                           unsafe_allow_html=True
+                       )
 
     else:
         st.warning(lbl_warning)
