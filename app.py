@@ -2,7 +2,20 @@ import streamlit as st
 import pandas as pd
 import os
 
-st.set_page_config(page_title="مساعد الراشد الذكي | Alrashid Mall Assistant", layout="centered")
+st.set_page_config(
+    page_title="مساعد الراشد", 
+    layout="centered"
+)
+
+# 🎨 كود سحري قصير ومضمون لجعل كل شيء محاذي لليمين
+st.markdown(
+    "<style>"
+    ".stApp { direction: RTL; text-align: right; }"
+    "div[data-baseweb='select'] { direction: RTL; text-align: right; }"
+    "label { text-align: right !important; display: block !important; }"
+    "</style>", 
+    unsafe_allowed_code=True
+)
 
 @st.cache_data
 def load_data():
@@ -10,11 +23,9 @@ def load_data():
 
 df = load_data()
 
-# 🌐 إدارة حالة اللغة
 if 'lang' not in st.session_state:
     st.session_state.lang = 'ar'
 
-# 📝 إعداد نصوص الواجهة
 if st.session_state.lang == 'ar':
     title_text = "✨ مُستشارك للتسوق في الراشد ميجا مول"
     lbl_target = "👤 اختر الفئة المستهدفة:"
@@ -26,21 +37,26 @@ if st.session_state.lang == 'ar':
     targets_opts = ["نساء", "رجال", "أطفال", "الكل"]
     price_opts = ["اقتصادي", "متوسط", "مرتفع", "الكل"]
     all_word = "الكل"
-    col_name, col_target, col_cat, col_price = 'اسم المحل', 'الفئة المستهدفة', 'التصنيف الرئيسي', 'مستوى الأسعار'
+    col_name = 'اسم المحل'
+    col_target = 'الفئة المستهدفة'
+    col_cat = 'التصنيف الرئيسي'
+    col_price = 'مستوى الأسعار'
 else:
-    title_text = "✨ Your Shopping Assistant at Alrashid Mega Mall"
+    title_text = "✨ Your Shopping Assistant"
     lbl_target = "👤 Select Target Audience:"
     lbl_category = "🛍️ Select Main Category:"
     lbl_price = "💰 Price Level:"
     lbl_btn = "Suggest Shops ✨"
-    lbl_success = "📌 Recommended Shops for you:"
-    lbl_warning = "Unfortunately, no shops match these criteria."
+    lbl_success = "📌 Recommended Shops:"
+    lbl_warning = "No shops match these criteria."
     targets_opts = ["Women", "Men", "Children", "All"]
     price_opts = ["Affordable", "Medium", "Premium", "All"]
     all_word = "All"
-    col_name, col_target, col_cat, col_price = 'Shop_Name', 'Target_Audience', 'Category', 'Price_Level'
+    col_name = 'Shop_Name'
+    col_target = 'Target_Audience'
+    col_cat = 'Category'
+    col_price = 'Price_Level'
 
-# 🏛️ تصميم الهيدر (الشعار والعنوان وزر اللغة)
 header_col1, header_col2 = st.columns([7, 3])
 with header_col1:
     if st.session_state.lang == 'ar':
@@ -59,10 +75,8 @@ with header_col2:
 
 st.write("---")
 
-# 1. القوائم المنسدلة للاختيار
 target_sel = st.selectbox(lbl_target, targets_opts)
 
-# 2. فلترة الفئة المستهدفة
 if target_sel in ["نساء", "Women"]:
     filtered_df = df[df[col_target].isin(["نساء", "الكل", "Women", "All"])]
 elif target_sel in ["رجال", "Men"]:
@@ -74,37 +88,59 @@ elif target_sel in ["أطفال", "Children"]:
 else:
     filtered_df = df
 
-available_categories = [all_word] if target_sel == all_word else sorted(filtered_df[col_cat].unique())
+if target_sel == all_word:
+    available_categories = [all_word]
+else:
+    available_categories = sorted(filtered_df[col_cat].unique())
 
 category_sel = st.selectbox(lbl_category, available_categories)
 price_sel = st.selectbox(lbl_price, price_opts)
 
-# 🧠 منطق الأسعار الذكي المختصر (بدون أسطر طويلة)
 price_map = {
-    "اقتصادي": ["اقتصادي"], "Affordable": ["Affordable"],
-    "متوسط": ["اقتصادي", "متوسط"], "Medium": ["Affordable", "Medium"],
-    "مرتفع": ["اقتصادي", "متوسط", "مرتفع"], "Premium": ["Affordable", "Medium", "Premium"]
+    "اقتصادي": ["اقتصادي"], 
+    "Affordable": ["Affordable"],
+    "متوسط": ["اقتصادي", "متوسط"], 
+    "Medium": ["Affordable", "Medium"],
+    "مرتفع": ["اقتصادي", "متوسط", "مرتفع"], 
+    "Premium": ["Affordable", "Medium", "Premium"]
 }
 price_filter = price_map.get(price_sel, df[col_price].unique().tolist())
 
-# 5. الفلترة النهائية وعرض النتائج
 if category_sel == all_word:
     final_df = filtered_df[filtered_df[col_price].isin(price_filter)]
 else:
-    final_df = filtered_df[(filtered_df[col_cat] == category_sel) & (filtered_df[col_price].isin(price_filter))]
+    final_df = filtered_df[
+        (filtered_df[col_cat] == category_sel) & 
+        (filtered_df[col_price].isin(price_filter))
+    ]
 
 st.write("")
 
-# عرض المحلات على شكل مربعات أنيقة ومقاومة للتلف
-if st.button(lbl_btn, use_container_width=True):
+# زر مقسم بعناية ومقاوم لتقطيع السطور
+search_clicked = st.button(
+    lbl_btn, 
+    use_container_width=True
+)
+
+if search_clicked:
     if not final_df.empty:
         st.success(lbl_success)
         shops = final_df[col_name].unique()
         for i in range(0, len(shops), 4):
             cols = st.columns(4)
             for j in range(4):
-                if i + j < len(shops):
+if i + j < len(shops):
                     with cols[j]:
-                        st.button(shops[i+j], key=f"sh_{i+j}", disabled=True)
+                        # سطر قصير ومحمي تماماً من التقطيع
+                        st.button(
+                            shops[i+j], 
+                            key=f"sh_{i+j}", 
+                            disabled=True,
+                            use_container_width=True
+                        )
     else:
         st.warning(lbl_warning)
+
+# 💡 حيلة ذكية: مسافات إضافية بالأسفل لتجبر القوائم على الفتح لأسفل دائماً
+for _ in range(10):
+    st.write("")
