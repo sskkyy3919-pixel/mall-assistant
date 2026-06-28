@@ -129,7 +129,7 @@ if search_clicked:
         for i in range(0, len(shops), 4):
             cols = st.columns(4)
             for j in range(4):
-if i + j < len(shops):
+                if i + j < len(shops):
                     with cols[j]:
                         # سطر قصير ومحمي تماماً من التقطيع
                         st.button(
