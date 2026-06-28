@@ -3,6 +3,36 @@ import pandas as pd
 import os
 
 st.set_page_config(page_title="مساعد الراشد الذكي | Alrashid Mall Assistant", layout="centered")
+st.markdown("""
+<style>
+
+/* جعل التطبيق كله من اليمين */
+.stApp {
+    direction: rtl;
+    text-align: right;
+}
+
+/* محاذاة جميع النصوص */
+h1, h2, h3, p, label, div {
+    text-align: right !important;
+}
+
+/* جعل أزرار المحلات سوداء وواضحة */
+div.stButton > button {
+    color: black !important;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+}
+
+/* محاذاة النص داخل الزر */
+div.stButton > button p {
+    text-align: center !important;
+    color: black !important;
+    font-weight: bold !important;
+}
+
+</style>
+""", unsafe_allow_html=True)
 
 @st.cache_data
 def load_data():
@@ -104,7 +134,25 @@ if st.button(lbl_btn, use_container_width=True):
             cols = st.columns(4)
             for j in range(4):
                 if i + j < len(shops):
-                    with cols[j]:
-                        st.button(shops[i+j], key=f"sh_{i+j}", disabled=True)
+                   with cols[j]:
+    st.markdown(
+        f"""
+        <div style="
+            border: 1px solid #999;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: black;
+            background-color: white;
+            margin-bottom: 10px;
+        ">
+            {shops[i+j]}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
     else:
         st.warning(lbl_warning)
