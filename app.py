@@ -89,7 +89,7 @@ with header_col1:
             st.session_state.lang = 'en'
             st.rerun()
     else:
-        if st.button("عربي"):
+        if st.button("العربية"):
             st.session_state.lang = 'ar'
             st.rerun()
     st.title(title_text)
