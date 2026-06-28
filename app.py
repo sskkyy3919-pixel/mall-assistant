@@ -117,5 +117,4 @@ if st.button(lbl_btn):
         for shop in final_df[col_name].unique():
             st.markdown(f"- **{shop}**")
     else:
-        st.
-warning(lbl_warning)
+        st.warning(lbl_warning)
