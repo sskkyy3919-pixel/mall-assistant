@@ -124,7 +124,7 @@ price_sel = st.selectbox(lbl_price, price_opts)
 if price_sel in ["اقتصادي", "Affordable"]:
     price_filter = ["اقتصادي", "Affordable"]
 elif price_sel in ["متوسط", "Medium"]:
-price_filter = ["متوسط", "اقتصادي", "Medium", "Affordable"]
+    price_filter = ["متوسط", "اقتصادي", "Medium", "Affordable"]
 elif price_sel in ["مرتفع", "Premium"]:
     price_filter = ["مرتفع", "متوسط", "اقتصادي", "Premium", "Medium", "Affordable"]
 else:
