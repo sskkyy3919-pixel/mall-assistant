@@ -118,8 +118,7 @@ else:
 st.write("")
 
 # زر عرض الاقتراحات والمحلات
-if st.
-button(lbl_btn, use_container_width=True):
+if st.button(lbl_btn, use_container_width=True):
     if not final_df.empty:
         st.success(lbl_success)
         
