@@ -108,8 +108,8 @@ if st.button(lbl_btn, use_container_width=True):
             for j in range(4):
                 if i + j < len(shops):
 with cols[j]:
-                        # أزرار واضحة وبارزة للمحلات
-                        st.button(f"**{shops[i+j]}**", key=f"sh_{i+j}", disabled=True, use_container_width=True)
+    # أزرار واضحة وبارزة للمحلات
+    st.button(f"**{shops[i+j]}**", key=f"sh_{i+j}", disabled=True, use_container_width=True)
     else:
         st.warning(lbl_warning)
 
