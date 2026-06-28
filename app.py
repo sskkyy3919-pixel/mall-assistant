@@ -97,22 +97,26 @@ else:
     final_df = filtered_df[(filtered_df[col_cat] == category_sel) & (filtered_df[col_price].isin(price_filter))]
 
 st.write("")
-
 # زر عرض الاقتراحات والمحلات ممتد
 if st.button(lbl_btn, use_container_width=True):
     if not final_df.empty:
         st.success(lbl_success)
         shops = final_df[col_name].unique()
+
         for i in range(0, len(shops), 4):
             cols = st.columns(4)
+
             for j in range(4):
                 if i + j < len(shops):
-with cols[j]:
-    # أزرار واضحة وبارزة للمحلات
-st.button(f"**{shops[i+j]}**", key=f"sh_{i+j}", disabled=True, use_container_width=True)
+                    with cols[j]:
+                        st.button(
+                            f"**{shops[i+j]}**",
+                            key=f"sh_{i+j}",
+                            disabled=True,
+                            use_container_width=True
+                        )
     else:
         st.warning(lbl_warning)
-
 # مساحات بالأسفل لتجبر القوائم المنسدلة على الفتح لأسفل دائماً
 for _ in range(8):
     st.write("")
