@@ -60,26 +60,22 @@ if st.session_state.lang == 'ar':
     title_text = "✨ مُستشارك للتسوق "
     lbl_target = "👤 اختر الفئة المستهدفة:"
     lbl_category = "🛍️ اختر التصنيف الرئيسي:"
-    lbl_price = "💰 مستوى الأسعار:"
     lbl_btn = "اقترح المحلات المناسبة ✨"
     lbl_success = "📌 المحلات المقترحة لك:"
     lbl_warning = "للأسف، لا توجد محلات تطابق هذه الاختيارات."
     targets_opts = ["نساء", "رجال", "أطفال", "الكل"]
-    price_opts = ["اقتصادي", "متوسط", "مرتفع", "الكل"]
     all_word = "الكل"
-    col_name, col_target, col_cat, col_price = 'اسم المحل', 'الفئة المستهدفة', 'التصنيف الرئيسي', 'مستوى الأسعار'
+    col_name, col_target, col_cat = 'اسم المحل', 'الفئة المستهدفة', 'التصنيف الرئيسي'
 else:
     title_text = "✨Shopping Assistant"
     lbl_target = "👤 Select Target Audience:"
     lbl_category = "🛍️ Select Main Category:"
-    lbl_price = "💰 Price Level:"
     lbl_btn = "Suggest Shops ✨"
     lbl_success = "📌 Recommended Shops for you:"
     lbl_warning = "Unfortunately, no shops match these criteria."
     targets_opts = ["Women", "Men", "Children", "All"]
-    price_opts = ["Affordable", "Medium", "Premium", "All"]
     all_word = "All"
-    col_name, col_target, col_cat, col_price = 'Shop_Name', 'Target_Audience', 'Category', 'Price_Level'
+    col_name, col_target, col_cat = 'Shop_Name', 'Target_Audience', 'Category'
 
 # 🏛️ تصميم الهيدر (الشعار والعنوان وزر اللغة)
 header_col1, header_col2 = st.columns([7, 3])
@@ -118,21 +114,12 @@ else:
 available_categories = [all_word] if target_sel == all_word else sorted(filtered_df[col_cat].unique())
 
 category_sel = st.selectbox(lbl_category, available_categories)
-price_sel = st.selectbox(lbl_price, price_opts)
-
-# 🧠 منطق الأسعار الذكي المختصر (بدون أسطر طويلة)
-price_map = {
-    "اقتصادي": ["اقتصادي"], "Affordable": ["Affordable"],
-    "متوسط": ["اقتصادي", "متوسط"], "Medium": ["Affordable", "Medium"],
-    "مرتفع": ["اقتصادي", "متوسط", "مرتفع"], "Premium": ["Affordable", "Medium", "Premium"]
-}
-price_filter = price_map.get(price_sel, df[col_price].unique().tolist())
 
 # 5. الفلترة النهائية وعرض النتائج
 if category_sel == all_word:
-    final_df = filtered_df[filtered_df[col_price].isin(price_filter)]
+    final_df = filtered_df
 else:
-    final_df = filtered_df[(filtered_df[col_cat] == category_sel) & (filtered_df[col_price].isin(price_filter))]
+    final_df = filtered_df[filtered_df[col_cat] == category_sel]
 
 st.write("")
 
